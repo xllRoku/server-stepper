@@ -9,13 +9,7 @@ import { UserSchema } from './user.model';
 
 dotenvConfig();
 
-class FormatError extends Error {
-    errors: { message: string; name: string }[];
-    constructor(errors: { message: string; name: string }[]) {
-        super('Error de formato');
-        this.errors = errors;
-    }
-}
+class FormatError extends Error {}
 
 type UserDTO = {
     _id: string;
@@ -31,37 +25,25 @@ const PASSWORD = /^\d{6,}$/;
 const validateBody = (body: UserDTO) => {
     const { email, password } = body;
 
-    const errors = [];
-
     if (!EMAIL.test(email) || !email.length) {
-        errors.push({
-            message: 'El formato del email es incorrecto',
-            name: 'email',
-        });
+        throw new FormatError('El formato del email es incorrecto');
     }
 
     if (!PASSWORD.test(password) || !password.length) {
-        errors.push({
-            message: 'El formato de la contraseña es incorrecto',
-            name: 'password',
-        });
+        throw new FormatError('El formato de la contraseña es incorrecto');
     }
 
-    if (errors.length > 0) {
-        const errorMessages = errors.map((error) => ({
-            message: error.message,
-            name: error.name,
-        }));
-
-        throw new FormatError(errorMessages);
-    } else {
-        return true;
-    }
+    return true;
 };
 
 function UserService() {
     function createUser(user: UserDTO) {
-        const newUser = new UserSchema({ user });
+        console.log(user);
+        const newUser = new UserSchema({
+            _id: user._id,
+            email: user.email,
+            password: user.password,
+        });
         newUser.save();
     }
 
@@ -76,11 +58,7 @@ const errorMiddleware: (
     //console.error('\x1b[0;31m' + error.stack);
 
     if (error instanceof FormatError) {
-        const errors = error.errors.map((err) => ({
-            message: err.message,
-            name: err.name,
-        }));
-        return res.status(400).send({ errorMessage: errors });
+        return res.status(400).send({ errorMessage: error.message });
     }
 
     console.log(error);
