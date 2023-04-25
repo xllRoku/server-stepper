@@ -3,6 +3,7 @@ import uuid from 'uuid-random';
 import { UserDTO } from './dto';
 import { UserRegisterUseCase } from './services';
 import { ValidateUserBody } from './validations';
+import { Password } from './haspassword';
 
 export class UserRegisterController {
     private validateUserBody: ValidateUserBody;
@@ -20,7 +21,13 @@ export class UserRegisterController {
 
         this.validateUserBody.validate(email, password);
 
-        await this.userRegisterUseCase.register(id, email, password);
+        const hashedPassword = await Password.hashed(password);
+
+        await this.userRegisterUseCase.register(
+            id,
+            email,
+            hashedPassword.getValue()
+        );
 
         replay.statusCode = 201;
     }

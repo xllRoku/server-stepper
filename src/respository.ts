@@ -66,6 +66,10 @@ export class UserRepository implements UserRepository {
      * @param User Domain user
      */
     async create(user: UserModel): Promise<void> {
+        const { password } = user;
+
+        console.log(password);
+
         const newUser = new UserSchema(user);
 
         await newUser.save();
