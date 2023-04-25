@@ -1,0 +1,1 @@
+class FormatError extends Error {}
