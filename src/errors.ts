@@ -1,1 +1,1 @@
-class FormatError extends Error {}
+export class FormatError extends Error {}

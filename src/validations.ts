@@ -1,4 +1,5 @@
 import { UserDTO } from './dto';
+import { FormatError } from './errors';
 
 const EMAIL =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -12,7 +13,9 @@ const validateBody = (body: UserDTO) => {
         throw new FormatError('El formato del email es incorrecto');
     }
 
-    if (!PASSWORD.test(password) || !password.length) {
+    if (PASSWORD.test(password) || !password.length) {
+        console.log(!PASSWORD.test(password));
+        console.log(!password.length);
         throw new FormatError('El formato de la contraseña es incorrecto');
     }
 

@@ -1,4 +1,5 @@
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import { FormatError } from './errors';
 
 const errorMiddleware: (
     error: FastifyError,

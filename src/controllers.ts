@@ -9,10 +9,9 @@ const UserController = () => {
         request: FastifyRequest<{ Body: UserDTO }>,
         replay: FastifyReply
     ) => {
+        console.log(request.body);
         const isValid = validateBody(request.body);
         const id = uuid();
-
-        console.log(request.body);
 
         if (isValid) {
             UserService().createUser({ ...request.body, _id: id });
