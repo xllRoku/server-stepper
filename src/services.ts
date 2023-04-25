@@ -1,18 +1,27 @@
-import { UserDTO } from './dto';
-import { UserSchema } from './user.model';
+import { UserRepository } from './respository';
+import { ValidateIfUserExists } from './validations';
 
-function UserService() {
-    function createUser(user: UserDTO) {
-        console.log(user);
-        const newUser = new UserSchema({
-            _id: user._id,
-            email: user.email,
-            password: user.password,
-        });
-        newUser.save();
+export class UserRegisterUseCase {
+    private validateIfUserExists: ValidateIfUserExists;
+    constructor(private userRepository: UserRepository) {
+        this.validateIfUserExists = new ValidateIfUserExists(
+            new UserRepository()
+        );
     }
 
-    return { createUser };
-}
+    async register(
+        _id: string,
+        email: string,
+        password: string
+    ): Promise<void> {
+        await this.validateIfUserExists.validate(_id, email);
 
-export { UserService };
+        const newUser = {
+            _id,
+            email,
+            password,
+        };
+
+        await this.userRepository.create(newUser);
+    }
+}
