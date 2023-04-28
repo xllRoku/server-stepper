@@ -1,52 +1,64 @@
-import { UserRepository } from './respository';
-import { ValidateIfUserExists } from './validations';
+import { UserDTO } from './dto';
+import { userRepository } from './respository';
+import { validate } from './validations';
 
-export class UserRegisterUseCase {
-    private validateIfUserExists: ValidateIfUserExists;
-    constructor(private userRepository: UserRepository) {
-        this.validateIfUserExists = new ValidateIfUserExists(
-            new UserRepository()
-        );
-    }
+const userRegisterUseCase = async (user: UserDTO) => {
+    await validate().IfFieldsAreAlreadyInUse(user);
+    await userRepository().register(user);
+};
 
-    async register(
-        _id: string,
-        email: string,
-        password: string
-    ): Promise<void> {
-        await this.validateIfUserExists.validate(_id, email);
+const userLoginUseCase = async (user: UserDTO) => {
+    return await validate().IfUserExists(user);
+};
 
-        const newUser = {
-            _id,
-            email,
-            password,
-        };
+export { userRegisterUseCase, userLoginUseCase };
 
-        await this.userRepository.create(newUser);
-    }
-}
+// export class UserRegisterUseCase {
+//     private validateIfUserExists: ValidateIfUserExists;
+//     constructor(private userRepository: UserRepository) {
+//         this.validateIfUserExists = new ValidateIfUserExists(
+//             new UserRepository()
+//         );
+//     }
 
-export class UserLoginUSeCase {
-    private validateIfUserExists: ValidateIfUserExists;
-    constructor(private userRepository: UserRepository) {
-        this.validateIfUserExists = new ValidateIfUserExists(
-            new UserRepository()
-        );
-    }
+//     async register(
+//         _id: string,
+//         email: string,
+//         password: string
+//     ): Promise<void> {
+//         await this.validateIfUserExists.validate(_id, email);
 
-    async register(
-        _id: string,
-        email: string,
-        password: string
-    ): Promise<void> {
-        await this.validateIfUserExists.validate(_id, email);
+//         const newUser = {
+//             _id,
+//             email,
+//             password,
+//         };
 
-        const newUser = {
-            _id,
-            email,
-            password,
-        };
+//         await this.userRepository.create(newUser);
+//     }
+// }
 
-        await this.userRepository.create(newUser);
-    }
-}
+// export class UserLoginUSeCase {
+//     private validateIfUserExists: ValidateIfUserExists;
+//     constructor(private userRepository: UserRepository) {
+//         this.validateIfUserExists = new ValidateIfUserExists(
+//             new UserRepository()
+//         );
+//     }
+
+//     async register(
+//         _id: string,
+//         email: string,
+//         password: string
+//     ): Promise<void> {
+//         await this.validateIfUserExists.validate(_id, email);
+
+//         const newUser = {
+//             _id,
+//             email,
+//             password,
+//         };
+
+//         await this.userRepository.create(newUser);
+//     }
+// }

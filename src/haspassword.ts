@@ -2,20 +2,30 @@ import { compare, hash } from 'bcrypt';
 
 const HASH_SALT = 10;
 
-export class Password {
-    constructor(private readonly value: string) {}
+const hashPassword = async (password: string) => {
+    return await hash(password, HASH_SALT);
+};
 
-    public static async hashed(password: string) {
-        const hashedPassword = await hash(password, HASH_SALT);
+const comparePassword = async (cantidadePassword: string, password: string) => {
+    return await compare(cantidadePassword, password);
+};
 
-        return new Password(hashedPassword);
-    }
+export { hashPassword, comparePassword };
 
-    public static compare(password: string, hashedPassword: Password) {
-        return compare(password, hashedPassword.value);
-    }
+// export class Password {
+//     constructor(private readonly value: string) {}
 
-    public getValue() {
-        return this.value;
-    }
-}
+//     public static async hashed(password: string) {
+//         const hashedPassword = await hash(password, HASH_SALT);
+
+//         return new Password(hashedPassword);
+//     }
+
+//     public static compare(password: string, hashedPassword: Password) {
+//         return compare(password, hashedPassword.value);
+//     }
+
+//     public getValue() {
+//         return this.value;
+//     }
+// }
