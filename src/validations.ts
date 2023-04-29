@@ -20,7 +20,11 @@ const validate = () => {
             throw new FormatError('El formato del email es incorrecto');
         }
 
-        if (PASSWORD.test(user.password) || !user.password.length) {
+        console.log(user.password);
+
+        console.log('password', !PASSWORD.test(user.password));
+
+        if (!PASSWORD.test(user.password) || !user.password.length) {
             throw new FormatError('El formato de la contraseña es incorrecto');
         }
     };
@@ -38,9 +42,11 @@ const validate = () => {
     const IfUserExists = async (user: UserDTO) => {
         const existingUser = await userRepository().findByEmail(user.email);
 
+        console.log(existingUser?.password, user.password);
+
         const didPasswordMatch = await comparePassword(
-            existingUser!.password,
-            user.password
+            user.password,
+            existingUser!.password
         );
 
         if (!didPasswordMatch) throw new InvalidLoginException();

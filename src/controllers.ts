@@ -14,13 +14,13 @@ const UserController = () => {
     ) => {
         const id = uuid();
 
+        validate().UserRegisterBody(request.body);
+
         const user = {
             ...request.body,
             _id: id,
             password: await hashPassword(request.body.password),
         };
-
-        validate().UserRegisterBody(user);
 
         await userRegisterUseCase(user);
 
