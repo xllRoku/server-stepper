@@ -6,8 +6,6 @@ type JwtPayload = {
 
 const jwtSecret = process.env.JWT_PRIVATE_KEY || 'default_jwt_secret';
 
-// TODO: Refactor to injectable service
-
 export const signAsync = (payload: JwtPayload, signOptions: SignOptions) =>
     new Promise<string>((resolve, reject) => {
         jwt.sign(payload, jwtSecret, signOptions, (err, token) => {
