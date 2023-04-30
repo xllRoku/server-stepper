@@ -1,7 +1,8 @@
 import jwt, { type SignOptions } from 'jsonwebtoken';
+import { VirtualTypeOptions } from 'mongoose';
 
 type JwtPayload = {
-    id: string;
+    id: string | void;
 };
 
 const jwtSecret = process.env.JWT_PRIVATE_KEY || 'default_jwt_secret';
