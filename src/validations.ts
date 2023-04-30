@@ -38,8 +38,6 @@ const validate = () => {
     const IfUserExists = async (user: UserDTO) => {
         const existingUser = await userRepository().findByEmail(user.email);
 
-        console.log(existingUser?.password, user.password);
-
         const didPasswordMatch = await comparePassword(
             user.password,
             existingUser!.password
