@@ -6,6 +6,9 @@ import {
 import { comparePassword } from '../haspassword';
 import { UserDTO } from './dto';
 import { UserRepository } from './respository';
+import { User } from './user';
+import { EmailVO } from './value-objects/email.vo';
+import { PlainPasswordVO } from './value-objects/plain.password.vo';
 
 export class UserService {
     private readonly userRepository: UserRepository;
@@ -30,23 +33,21 @@ export class UserService {
         }
     }
 
-    async register(user: UserDTO) {
-        await this.existsUserById(user._id);
-        await this.existsUserByEmail(user.email);
+    async register(user: User) {
+        await this.existsUserById(user._id.value);
+        await this.existsUserByEmail(user.email.value);
         await this.userRepository.create(user);
     }
 
-    async login(user: UserDTO) {
-        const existingUser = await this.userRepository.findByEmail(user.email);
+    async login(email: EmailVO, password: PlainPasswordVO) {
+        const existingUser = await this.userRepository.findByEmail(email.value);
 
         if (!existingUser) {
             throw new InvalidLoginException();
         }
 
-        const didPasswordMatch = await comparePassword(
-            user.password,
-            existingUser.password
-        );
+        const didPasswordMatch = await existingUser.comparePassword(password);
+
         if (!didPasswordMatch) {
             throw new InvalidLoginException();
         }

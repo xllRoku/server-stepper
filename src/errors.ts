@@ -2,6 +2,8 @@ export class FormatError extends Error {}
 
 export class AplicationError extends Error {}
 
+export class DomainFormatException extends Error {}
+
 export class UserEmailAlreadyInUse extends AplicationError {
     constructor() {
         super('El email ya está en uso');
@@ -23,5 +25,11 @@ export class NotUserFound extends AplicationError {
 export class InvalidLoginException extends AplicationError {
     constructor() {
         super('Credenciales incorrectas');
+    }
+}
+
+export class VOFormatException extends DomainFormatException {
+    constructor(constructorName: string, value: any) {
+        super(`${constructorName}: Invalid value ${JSON.stringify(value)}`);
     }
 }
