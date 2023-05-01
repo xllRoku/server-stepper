@@ -1,5 +1,5 @@
+import { inject, injectable } from 'inversify';
 import { UserService } from './services';
-import { UserValidator } from './validations';
 import { SignOptions } from 'jsonwebtoken';
 import { signAsync } from '../jwt.service';
 import { User } from './user';
@@ -7,12 +7,17 @@ import { UuidVO } from './value-objects/uuid.vo';
 import { EmailVO } from './value-objects/email.vo';
 import { PasswordVO } from './value-objects/password.vo';
 import { PlainPasswordVO } from './value-objects/plain.password.vo';
+import { ContainerSymbols } from '../symbols';
 
+@injectable()
 export class AuthUser {
-    private readonly userService: UserService;
+    // private readonly userService: UserService;
 
-    constructor(userService: UserService, userValidator: UserValidator) {
-        this.userService = userService;
+    constructor(
+        @inject(ContainerSymbols.UserService)
+        private userService: UserService
+    ) {
+        // this.userService = userService;
     }
 
     async registerUser(

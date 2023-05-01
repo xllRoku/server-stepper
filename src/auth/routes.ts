@@ -1,15 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import { UserController } from './controllers';
-import { UserService } from './services';
-import { UserRepository } from './respository';
-import { UserValidator } from './validations';
-import { AuthUser } from './auth.system';
+import container from '../container';
+import { ContainerSymbols } from '../symbols';
 
-const userRepository = new UserRepository();
-const userValidator = new UserValidator();
-const userService = new UserService(userRepository);
-const authUser = new AuthUser(userService, userValidator);
-const userController = UserController(userService, authUser);
+const userController = container.get<UserController>(
+    ContainerSymbols.UserController
+);
 
 const userRoutes = async (server: FastifyInstance) => {
     server.post('/register', userController.register);
