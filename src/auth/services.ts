@@ -13,14 +13,10 @@ import { ContainerSymbols } from '../symbols';
 
 @injectable()
 export class UserService {
-    // private readonly userRepository: UserRepository;
-
     constructor(
         @inject(ContainerSymbols.UserRepository)
         private userRepository: UserRepository
-    ) {
-        // this.userRepository = userRepository;
-    }
+    ) {}
 
     private async existsUserById(_id: UuidVO) {
         const existingUserById = await this.userRepository.findById(_id);

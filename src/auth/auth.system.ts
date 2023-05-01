@@ -11,14 +11,10 @@ import { ContainerSymbols } from '../symbols';
 
 @injectable()
 export class AuthUser {
-    // private readonly userService: UserService;
-
     constructor(
         @inject(ContainerSymbols.UserService)
         private userService: UserService
-    ) {
-        // this.userService = userService;
-    }
+    ) {}
 
     async registerUser(
         _id: UuidVO,

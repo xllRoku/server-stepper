@@ -45,38 +45,3 @@ export class UserController {
         return { token };
     };
 }
-
-// function UserController(@inject(AuthUser) authUser: AuthUser) {
-//     const register = async (
-//         request: FastifyRequest<{ Body: UserDTO }>,
-//         _: FastifyReply
-//     ) => {
-//         const id = uuid();
-//         const { email, password } = request.body;
-
-//         const token = await authUser.registerUser(
-//             new UuidVO(id),
-//             new EmailVO(email),
-//             await PasswordVO.create(password)
-//         );
-
-//         return { token };
-//     };
-
-//     const login = async (
-//         request: FastifyRequest<{ Body: UserDTO }>,
-//         _: FastifyReply
-//     ) => {
-//         const { email, password } = request.body;
-//         const token = await authUser.loginUser(
-//             new EmailVO(email),
-//             new PlainPasswordVO(password)
-//         );
-
-//         return { token };
-//     };
-
-//     return { register, login };
-// }
-
-// export { UserController };
