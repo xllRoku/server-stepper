@@ -3,7 +3,7 @@ import { config as dotenvConfig } from 'dotenv';
 import fastify from 'fastify';
 import connectDb from './connect-db';
 import { errorMiddleware } from './errorMiddleware';
-import { userRoutes } from './routes';
+import { userRoutes } from './auth/routes';
 
 dotenvConfig();
 
