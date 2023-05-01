@@ -1,21 +1,26 @@
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { AplicationError, FormatError } from './errors';
+import { ApplicationConflictException, DomainFormatException } from './errors';
+import { STATUS_ERROR } from './status.errors';
 
 const errorMiddleware: (
     error: FastifyError,
     request: FastifyRequest,
     reply: FastifyReply
 ) => void = (error, _, res) => {
-    if (error instanceof FormatError) {
-        return res.status(400).send({ errorMessage: error.message });
+    if (error instanceof DomainFormatException)
+        return res
+            .status(STATUS_ERROR.BAD_REQUEST)
+            .send({ errorMessage: error.message });
+
+    if (error instanceof ApplicationConflictException) {
+        return res
+            .status(STATUS_ERROR.UNAUTHORIZED)
+            .send({ errorMessage: error.message });
     }
 
-    if (error instanceof AplicationError) {
-        return res.status(400).send({ errorMessage: error.message });
-    }
-
-    console.log(error);
-    return res.status(500).send({ errorMessage: 'Error interno del servidor' });
+    return res
+        .status(STATUS_ERROR.INTERNAL_SERVER_ERROR)
+        .send({ errorMessage: 'Error interno del servidor' });
 };
 
 export { errorMiddleware };

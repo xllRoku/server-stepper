@@ -57,6 +57,21 @@ export class UserRepository implements IUserRepository {
     }
 
     /**
+     * Transforms a domain user into a database user
+     * @param domainUser Domain user
+     * @returns Database user
+     */
+    private toPersistance(domainUser: User) {
+        const { _id, email, password } = domainUser;
+
+        return {
+            _id: _id.value,
+            email: email.value,
+            password: password.value,
+        };
+    }
+
+    /**
      * Finds a user by id
      * @param id User id
      * @returns Domain user
@@ -90,7 +105,9 @@ export class UserRepository implements IUserRepository {
      */
 
     async create(user: User) {
-        const newUser = new UserSchema(user);
+        const persistanceUser = this.toPersistance(user);
+
+        const newUser = new UserSchema(persistanceUser);
         await newUser.save();
     }
 

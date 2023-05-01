@@ -1,28 +1,28 @@
 export class FormatError extends Error {}
 
-export class AplicationError extends Error {}
+export class ApplicationConflictException extends Error {}
 
 export class DomainFormatException extends Error {}
 
-export class UserEmailAlreadyInUse extends AplicationError {
+export class UserEmailAlreadyInUse extends ApplicationConflictException {
     constructor() {
         super('El email ya está en uso');
     }
 }
 
-export class UserIdAlreadyInUse extends Error {
+export class UserIdAlreadyInUse extends ApplicationConflictException {
     constructor() {
         super('El ID del usuario ya está en uso');
     }
 }
 
-export class NotUserFound extends AplicationError {
+export class NotUserFound extends ApplicationConflictException {
     constructor() {
         super('El usuario no existe');
     }
 }
 
-export class InvalidLoginException extends AplicationError {
+export class InvalidLoginException extends ApplicationConflictException {
     constructor() {
         super('Credenciales incorrectas');
     }
