@@ -4,6 +4,7 @@ import fastify from 'fastify';
 import connectDb from './connect-db';
 import { errorMiddleware } from './errorMiddleware';
 import { userRoutes } from './auth/routes';
+import { planRoutes } from './plan/routes';
 
 dotenvConfig();
 
@@ -15,6 +16,7 @@ const startApp = async () => {
     server.register(cors);
 
     server.register(userRoutes, { prefix: '/users' });
+    server.register(planRoutes, { prefix: '/plans' });
 
     server.setErrorHandler(errorMiddleware);
 
