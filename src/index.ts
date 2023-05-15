@@ -6,6 +6,7 @@ import { errorMiddleware } from './errorMiddleware';
 import { userRoutes } from './auth/routes';
 import { planRoutes } from './plan/routes';
 import { addonRoutes } from './addons/routes';
+import { orderRoutes } from './order/routes';
 
 dotenvConfig();
 
@@ -19,6 +20,7 @@ const startApp = async () => {
     server.register(userRoutes, { prefix: '/users' });
     server.register(planRoutes, { prefix: '/plans' });
     server.register(addonRoutes, { prefix: '/addons' });
+    server.register(orderRoutes, { prefix: '/order' });
 
     server.setErrorHandler(errorMiddleware);
 
