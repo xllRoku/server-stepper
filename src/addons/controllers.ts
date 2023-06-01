@@ -1,6 +1,6 @@
 import uuid from 'uuid-random';
-import { AddonSchema } from './schema';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { AddonSchema } from './schema';
 
 type AddonDTO = {
     title: string;
@@ -10,7 +10,7 @@ type AddonDTO = {
 };
 
 const addonController = () => {
-    const creatAddon = async (
+    const createAddon = async (
         request: FastifyRequest<{ Body: AddonDTO }>,
         replay: FastifyReply
     ) => {
@@ -20,7 +20,7 @@ const addonController = () => {
 
         // TODO: validate body
 
-        const plan = new AddonSchema({
+        const addon = new AddonSchema({
             _id: id,
             annuality,
             content,
@@ -28,10 +28,11 @@ const addonController = () => {
             title,
         });
 
-        await plan.save();
+        await addon.save();
 
         replay.statusCode = 200;
     };
+
     const getByAnnuality = async (
         request: FastifyRequest<{ Params: { annuality: string } }>,
         _replay: FastifyReply
@@ -43,13 +44,14 @@ const addonController = () => {
         return await AddonSchema.find().where({ annuality });
     };
 
-    const getAllAddon = async (
+    const getAllAddons = async (
         _request: FastifyRequest,
         _replay: FastifyReply
     ) => {
         return await AddonSchema.find();
     };
-    return { creatAddon, getAllAddon, getByAnnuality };
+
+    return { createAddon, getAllAddons, getByAnnuality };
 };
 
 export { addonController };
