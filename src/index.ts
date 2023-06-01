@@ -5,6 +5,7 @@ import connectDb from './connect-db';
 import { errorMiddleware } from './errorMiddleware';
 import { userRoutes } from './auth/routes';
 import { planRoutes } from './plan/routes';
+import { addonRoutes } from './addons/routes';
 
 dotenvConfig();
 
@@ -17,6 +18,7 @@ const startApp = async () => {
 
     server.register(userRoutes, { prefix: '/users' });
     server.register(planRoutes, { prefix: '/plans' });
+    server.register(addonRoutes, { prefix: '/addons' });
 
     server.setErrorHandler(errorMiddleware);
 
