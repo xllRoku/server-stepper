@@ -6,10 +6,7 @@ import { errorMiddleware } from './errorMiddleware';
 import { userRoutes } from './auth/routes';
 import { planRoutes } from './plan/routes';
 import { addonRoutes } from './addons/routes';
-<<<<<<< HEAD
-=======
 import { orderRoutes } from './order/routes';
->>>>>>> 160073db589cdac1da8d400d8d0a5e8645ea7990
 
 dotenvConfig();
 
@@ -23,10 +20,7 @@ const startApp = async () => {
     server.register(userRoutes, { prefix: '/users' });
     server.register(planRoutes, { prefix: '/plans' });
     server.register(addonRoutes, { prefix: '/addons' });
-<<<<<<< HEAD
-=======
     server.register(orderRoutes, { prefix: '/order' });
->>>>>>> 160073db589cdac1da8d400d8d0a5e8645ea7990
 
     server.setErrorHandler(errorMiddleware);
 
